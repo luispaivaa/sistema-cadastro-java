@@ -129,7 +129,7 @@ Exemplo de arquivo salvo:
 7 - Siames
 ```
 
-## 📍Passo 5: Buscar os dados do Pet Cadastrado 🔍
+## 📍Passo 5: Buscar os dados do model.Pet Cadastrado 🔍
 O usuário, ao selecionar a opção 2, deverá ser capaz de buscar o pet usando determinados dados.
 O usuário poderá buscar o pet por:
 - Nome ou sobrenome

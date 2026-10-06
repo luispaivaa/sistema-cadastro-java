@@ -97,18 +97,9 @@ public class Pet {
                                     }
 
                                     String nomeCompleto = resposta.trim();
-                                    String[] partesNome = nomeCompleto.split("\\s+");
-                                    if (partesNome.length > 2){
-                                        novoPet.nomePet = partesNome[0];
-                                        String sobrenomeMaior = "";
-                                        for (int i = 1; i < partesNome.length-1; i++) {
-                                            sobrenomeMaior = partesNome[i].concat(" " + partesNome[i+1]);
-                                        }
-                                        novoPet.sobrenomePet = sobrenomeMaior;
-                                    } else {
-                                    novoPet.nomePet = partesNome[0];
-                                    novoPet.sobrenomePet = partesNome[1];
-                                    }
+                                    String[] partes = resposta.trim().split("\\s+", 2);
+                                    novoPet.nomePet = partes[0];
+                                    novoPet.sobrenomePet = partes[1];
                                     /* valida nome; throw se inválido; atribui */
                                 }
                                 case 2 -> {
@@ -152,31 +143,31 @@ public class Pet {
                                     /* idade */
                                 }
                                 case 6 -> {
-                                    String regexApenasNumeros = "[0-9]+";
-                                    if (resposta == null || resposta.isBlank()) {
-                                        novoPet.pesoPet = 0.0;
+                                    if (resposta.isBlank()) {
+                                        throw new IllegalArgumentException("O peso é obrigatório.");
                                     }
-                                    if (resposta.trim().matches(regexApenasNumeros)) {
-                                        double pesoPetDouble = Double.parseDouble(resposta);
-                                        if (pesoPetDouble > 60 || pesoPetDouble < 0.5) {
-                                            throw new PesoInvalidoException("Peso inválido.");
+                                    try {
+                                        Double pesoPetDouble = Double.parseDouble(resposta.trim());
+
+                                        if(pesoPetDouble < 0.5 || pesoPetDouble > 60){
+                                            throw new PesoInvalidoException("O peso deve estar entre 0.5 kg e 60 kg");
                                         }
+
                                         novoPet.pesoPet = pesoPetDouble;
-                                    } else {
-                                        throw new IllegalArgumentException("Digite apenas números.");
+                                    } catch (NumberFormatException e) {
+                                        throw new NumberFormatException("Digite apenas números.");
                                     }
                                     /* peso */
                                 }
                                 case 7 -> {
-                                    try {
-                                        String regexDoisNomes = "^[A-Za-z]+(\\s+[A-Za-z]+)+$";
-                                        String regexApenasLetras = "^[A-Za-z]+$";
-                                        if(resposta.trim().matches(regexApenasLetras)|| resposta.trim().matches(regexDoisNomes)){
-                                            novoPet.racaPet = resposta;
+                                        String regexVariosNomes = "^[A-Za-z]+(\\s+[A-Za-z]+)+$";
+                                        String regexUmNome = "^[A-Za-z]+$";
+
+                                        String raca = resposta.trim();
+                                        if (!raca.matches(regexUmNome) && !raca.matches(regexVariosNomes)) {
+                                            throw new IllegalArgumentException("Digite uma raça válida");
                                         }
-                                    } catch (RuntimeException e){
-                                        throw new RuntimeException("Digite apenas letras.");
-                                    }
+                                        novoPet.racaPet = raca;
                                     /* raça */
                                 }
                             }
@@ -252,7 +243,7 @@ public class Pet {
         }
     }
 
-    public Double lerNumero(String resposta){
+    public static Double lerNumero(String resposta){
         String r = resposta.trim();
         if (r.isBlank()) {
             return null;
