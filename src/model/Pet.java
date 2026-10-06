@@ -189,6 +189,7 @@ public class Pet {
             String numero = input.nextLine().trim();
             if (numero.isBlank()){
                 novoEndereco.numeroCasa = NAO_INFORMADO;
+                break;
             }
             if (numero.matches("[0-9]+")) {
                 novoEndereco.numeroCasa = numero;
@@ -250,15 +251,15 @@ public class Pet {
 
     @Override
     public String toString() {
-        return "model.Pet{" +
+        return "Pet{" +
                 "nomePet='" + nomePet + '\'' +
                 ", sobrenomePet='" + sobrenomePet + '\'' +
                 ", tipoPet=" + tipoPet +
                 ", sexo=" + sexo +
                 ", racaPet='" + racaPet + '\'' +
-                ", pesoPet=" + pesoPet +
-                ", idadePet=" + idadePet +
-                ", endereco=" + endereco.toString() +
+                ", pesoPet=" + (pesoPet == null ? NAO_INFORMADO : pesoPet) +
+                ", idadePet=" + (idadePet == null ? NAO_INFORMADO : idadePet) +
+                ", endereco=" + endereco +
                 '}';
     }
 }

@@ -19,7 +19,7 @@ public class Endereco {
 
      @Override
      public String toString() {
-          return "model.Endereco{" +
+          return "Endereco{" +
                   "nomeRua='" + nomeRua + '\'' +
                   ", nomeBairro='" + nomeBairro + '\'' +
                   ", nomeCidade='" + nomeCidade + '\'' +
