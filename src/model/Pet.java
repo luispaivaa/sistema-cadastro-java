@@ -126,37 +126,19 @@ public class Pet {
                                     /* endereço (vários campos) */
                                 }
                                 case 5 -> {
-                                    try {
-                                        double idade = Double.parseDouble(resposta.trim());
-                                        if (idade < 0 || idade > 20){
-                                            throw new IdadeInvalidaException(
-                                                    "A idade deve estar entre 0 e 20 anos."
-                                            );
-                                        }
-
-                                        novoPet.idadePet = idade;
-
-                                    } catch (NumberFormatException e) {
-                                        throw new NumberFormatException("Digite uma idade válida. Apenas números!");
+                                    Double idade = lerNumero(resposta);
+                                    if (idade != null && idade > 20) {
+                                        throw new IdadeInvalidaException("A idade deve ser no máximo 20 anos.");
                                     }
-
+                                    novoPet.idadePet = idade; // null = não informado
                                     /* idade */
                                 }
                                 case 6 -> {
-                                    if (resposta.isBlank()) {
-                                        throw new IllegalArgumentException("O peso é obrigatório.");
+                                    Double peso = lerNumero(resposta);
+                                    if (peso != null && (peso < 0.5 || peso > 60)) {
+                                        throw new PesoInvalidoException("O peso deve estar entre 0.5 kg e 60 kg");
                                     }
-                                    try {
-                                        Double pesoPetDouble = Double.parseDouble(resposta.trim());
-
-                                        if(pesoPetDouble < 0.5 || pesoPetDouble > 60){
-                                            throw new PesoInvalidoException("O peso deve estar entre 0.5 kg e 60 kg");
-                                        }
-
-                                        novoPet.pesoPet = pesoPetDouble;
-                                    } catch (NumberFormatException e) {
-                                        throw new NumberFormatException("Digite apenas números.");
-                                    }
+                                    novoPet.pesoPet = peso;
                                     /* peso */
                                 }
                                 case 7 -> {
@@ -248,7 +230,7 @@ public class Pet {
         if (r.isBlank()) {
             return null;
         }
-        if(!r.matches("\\d+[.,]\\d+?")){
+        if (!r.matches("\\d+([.,]\\d+)?")) {
             throw new IllegalArgumentException("Digite apenas números.");
         }
         return Double.parseDouble(r.replace(',' , '.'));
