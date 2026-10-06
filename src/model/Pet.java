@@ -146,10 +146,14 @@ public class Pet {
                                         String regexUmNome = "^[A-Za-z]+$";
 
                                         String raca = resposta.trim();
-                                        if (!raca.matches(regexUmNome) && !raca.matches(regexVariosNomes)) {
+
+                                        if (raca.isBlank()){
+                                            novoPet.racaPet = NAO_INFORMADO;
+                                        } else if (!raca.matches(regexUmNome) && !raca.matches(regexVariosNomes)) {
                                             throw new IllegalArgumentException("Digite uma raça válida");
+                                        } else {
+                                            novoPet.racaPet = raca;
                                         }
-                                        novoPet.racaPet = raca;
                                     /* raça */
                                 }
                             }
@@ -183,8 +187,11 @@ public class Pet {
         while (true) {
             System.out.println("Número da Casa - ");
             String numero = input.nextLine().trim();
+            if (numero.isBlank()){
+                novoEndereco.numeroCasa = NAO_INFORMADO;
+            }
             if (numero.matches("[0-9]+")) {
-                novoEndereco.numeroCasa = Integer.parseInt(numero);
+                novoEndereco.numeroCasa = numero;
                 break;
             }
             System.out.println("DIGITE APENAS NÚMEROS.\n");

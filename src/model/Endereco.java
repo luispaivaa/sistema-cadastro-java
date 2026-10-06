@@ -4,9 +4,9 @@ public class Endereco {
      String nomeRua;
      String nomeBairro;
      String nomeCidade;
-     Integer numeroCasa;
+     String numeroCasa;
 
-     public Endereco(String nomeRua, String nomeBairro, String nomeCidade, Integer numeroCasa) {
+     public Endereco(String nomeRua, String nomeBairro, String nomeCidade, String numeroCasa) {
           this.nomeRua = nomeRua;
           this.nomeBairro = nomeBairro;
           this.nomeCidade = nomeCidade;
@@ -51,11 +51,11 @@ public class Endereco {
           this.nomeCidade = nomeCidade;
      }
 
-     public Integer getNumeroCasa() {
+     public String getNumeroCasa() {
           return numeroCasa;
      }
 
-     public void setNumeroCasa(Integer numeroCasa) {
+     public void setNumeroCasa(String numeroCasa) {
           this.numeroCasa = numeroCasa;
      }
 }
