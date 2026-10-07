@@ -271,8 +271,8 @@ import java.time.LocalDate;
                 writer.write("2 - " + pet.tipoPet + "\n");
                 writer.write("3 - " + pet.sexo + "\n");
                 writer.write("4 - " + pet.endereco.nomeRua + ", " + pet.endereco.numeroCasa + ", " + pet.endereco.nomeBairro + "\n");
-                writer.write("5 - " + (pet.idadePet == null ? NAO_INFORMADO : pet.idadePet) + "\n");
-                writer.write("6 - " + (pet.pesoPet == null ? NAO_INFORMADO : pet.pesoPet) + "\n");
+                writer.write("5 - " + (pet.idadePet == null ? NAO_INFORMADO : pet.idadePet + " anos") + "\n");
+                writer.write("6 - " + (pet.pesoPet == null ? NAO_INFORMADO : pet.pesoPet + " kg") + "\n");
                 writer.write("7 - " + (pet.racaPet == null ? NAO_INFORMADO : pet.racaPet) + "\n");
         
 
