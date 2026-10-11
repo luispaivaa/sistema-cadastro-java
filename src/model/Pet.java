@@ -15,6 +15,7 @@
     import java.time.format.DateTimeFormatter;
     import java.util.ArrayList;
     import java.util.List;
+    import java.util.Objects;
     import java.util.Scanner;
 
     public class Pet {
@@ -66,6 +67,7 @@
                     System.out.println(Pet.listaPetCadastrados);
                     break;
                 case "5":
+                    exibirMenuBuscaPets();
                     break;
                 case "6":
                     break;
@@ -284,13 +286,15 @@
 
         public static void exibirMenuBuscaPets(){
             System.out.println("\n\n--------BEM-VINDO AO MENU DE BUSCA DE PETS---------\n");
-            System.out.println("1 - Buscar por idade\n2 - Buscar por nome\n3 - Buscar por raça\n4 - Voltar ao menu principal");
+            System.out.println("1 - Buscar por idade\n2 - Buscar por nome\n3 - Buscar por raça\n4 - Voltar ao menu principal\n");
             System.out.println("\nEscolha uma opção: ");
             String opcaoEscolhida = input.nextLine();
             switch (opcaoEscolhida.trim()){
                 case "1":
+                    buscarPetsPorIdade();
                     break;
                 case "2":
+                    buscarPetsPorNome();
                     break;
                 case "3":
                     break;
@@ -305,8 +309,52 @@
         }
 
         public static void buscarPetsPorIdade(){
-            
+            System.out.println("INFORME A IDADE DE SEU PET: ");
+            String resposta = input.nextLine();
+            Double idade = lerNumero(resposta);
+            List<Pet> petsEncontrados = new ArrayList<>();
+            for(Pet pet : listaPetCadastrados){
+                if (Objects.equals(pet.idadePet, idade)){
+                    petsEncontrados.add(pet);
+                }
+            }
+            if (petsEncontrados.isEmpty()){
+                System.out.println("\n\nNenhum pet cadastrado com essa idade.\n\n");
+                exibirMenuBuscaPets();
+            } else {
+                System.out.println("\n\n--- PETS ENCONTRADOS ---\n\n");
+                int indice = 1;
+                for (Pet petsEncontrado : petsEncontrados) {
+                    System.out.println(indice + " - " + petsEncontrado.nomePet.toUpperCase());
+                    indice++;
+                }
+            }
         }
+
+        public static void buscarPetsPorNome(){
+            System.out.println("INFORME O NOME DO SEU PET: ");
+            String resposta = input.nextLine();
+            String respostaFormatada = resposta.trim().toLowerCase();
+            List<Pet> petsEncontradosNome = new ArrayList<>();
+            for (Pet petCadastrado : listaPetCadastrados) {
+                if (petCadastrado.nomePet.toLowerCase().equals(respostaFormatada) || petCadastrado.sobrenomePet.toLowerCase().equals(respostaFormatada)) {
+                    petsEncontradosNome.add(petCadastrado);
+                }
+            }
+            if (petsEncontradosNome.isEmpty()){
+                System.out.println("\n\nNenhum pet cadastrado com esse nome.\n\n");
+                exibirMenuBuscaPets();
+            } else {
+                System.out.println("\n\n--- PETS ENCONTRADOS ---\n\n");
+                int indice = 1;
+                for (Pet petsEncontrado : petsEncontradosNome) {
+                    System.out.println(indice + " - " + petsEncontrado.nomePet.toUpperCase() + " " + petsEncontrado.sobrenomePet.toUpperCase());
+                    indice++;
+                }
+            }
+        }
+
+
         @Override
         public String toString() {
             return "Pet{" +
