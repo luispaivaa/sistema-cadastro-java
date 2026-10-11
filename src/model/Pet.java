@@ -13,10 +13,7 @@
     import java.io.IOException;
     import java.time.LocalDateTime;
     import java.time.format.DateTimeFormatter;
-    import java.util.ArrayList;
-    import java.util.List;
-    import java.util.Objects;
-    import java.util.Scanner;
+    import java.util.*;
 
     public class Pet {
         String nomePet;
@@ -263,7 +260,7 @@
         
         public static void salvarPetArquivo(Pet pet) {
            String dataHora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm"));
-           String nomeArquivo = dataHora + "-" + (pet.nomePet + pet.sobrenomePet).replace(" ", "") + ".TXT";
+           String nomeArquivo = dataHora + "-" + (pet.nomePet + pet.sobrenomePet).replace(" ", "").toUpperCase() + ".TXT";
 
            File pastaPets = new File(PASTA_PETS);
            pastaPets.mkdir(); 
@@ -297,6 +294,7 @@
                     buscarPetsPorNome();
                     break;
                 case "3":
+                    buscarPetsPorRaca();
                     break;
                 case "4":
                     showMenu();
@@ -352,6 +350,30 @@
                     indice++;
                 }
             }
+        }
+
+        public static void buscarPetsPorRaca(){
+            System.out.println("\n\nINFORME A RAÇA DO SEU PET: \n");
+            String resposta = input.nextLine();
+            String respostaFormatada = resposta.trim().toUpperCase();
+            List<Pet> petsEncontradosRaca = new ArrayList<>();
+            for (Pet petCadastrado : listaPetCadastrados) {
+                if (petCadastrado.racaPet.toUpperCase().equals(respostaFormatada)){
+                    petsEncontradosRaca.add(petCadastrado);
+                }
+                if (petsEncontradosRaca.isEmpty()){
+                    System.out.println("Nenhum pet com essa raça foi cadastrado.");
+                    exibirMenuBuscaPets();
+                } else {
+                    System.out.println("\n\n--- PETS ENCONTRADOS ---\n\n");
+                    int indice = 1;
+                    for (Pet petsEncontrado : petsEncontradosRaca) {
+                        System.out.println(indice + " - " + petsEncontrado.nomePet.toUpperCase() + " " + petsEncontrado.sobrenomePet.toUpperCase());
+                        indice++;
+                    }
+                }
+            }
+
         }
 
 
