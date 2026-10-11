@@ -342,10 +342,13 @@
         public static void buscarPetsPorNome(TipoPet tipoPet){
             System.out.println("INFORME O NOME DO SEU PET: ");
             String resposta = input.nextLine();
-            String respostaFormatada = resposta.trim().toLowerCase();
+            String respostaFormatada = normalizarTexto(resposta.trim());
             List<Pet> petsEncontradosNome = new ArrayList<>();
+
             for (Pet petCadastrado : listaPetCadastrados) {
-                if (petCadastrado.tipoPet == tipoPet && (petCadastrado.nomePet.toLowerCase().contains(respostaFormatada) || petCadastrado.sobrenomePet.toLowerCase().contains(respostaFormatada))) {
+                String nomeCompleto = petCadastrado.nomePet + " " + petCadastrado.sobrenomePet;
+                String nomeCompletoFormatado = normalizarTexto(nomeCompleto.trim());
+                if (petCadastrado.tipoPet == tipoPet && (nomeCompletoFormatado.contains(respostaFormatada))) {
                     petsEncontradosNome.add(petCadastrado);
                 }
             }
@@ -365,10 +368,12 @@
         public static void buscarPetsPorRaca(TipoPet tipoPet){
             System.out.println("\n\nINFORME A RAÇA DO SEU PET: \n");
             String resposta = input.nextLine();
-            String respostaFormatada = resposta.trim().toUpperCase();
+            String respostaFormatada = normalizarTexto(resposta.trim());
             List<Pet> petsEncontradosRaca = new ArrayList<>();
+
             for (Pet petCadastrado : listaPetCadastrados) {
-                if (petCadastrado.tipoPet == tipoPet && petCadastrado.racaPet.toUpperCase().contains(respostaFormatada)){
+                String racaFormatada = normalizarTexto(petCadastrado.racaPet.trim());
+                if (petCadastrado.tipoPet == tipoPet && racaFormatada.contains(respostaFormatada)){
                     petsEncontradosRaca.add(petCadastrado);
                 }
             }
