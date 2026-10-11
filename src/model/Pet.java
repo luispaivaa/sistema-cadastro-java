@@ -10,8 +10,7 @@
     import java.io.File;
     import java.io.FileReader;
     import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDate;
+    import java.io.IOException;
     import java.time.LocalDateTime;
     import java.time.format.DateTimeFormatter;
     import java.util.ArrayList;
@@ -37,14 +36,17 @@ import java.time.LocalDate;
         public Pet() {
         }
 
-    //    public model.Pet(String nomePet, String tipoPet, String sexo, double pesoPet, String racaPet, model.Endereco endereco) {
-    //        this.nomePet = nomePet;
-    //        this.tipoPet = tipoPet;
-    //        this.sexo = sexo;
-    //        this.pesoPet = pesoPet;
-    //        this.racaPet = racaPet;
-    //        this.endereco = endereco;
-    //    }
+
+        public Pet(String nomePet, String sobrenomePet, TipoPet tipoPet, SexoPet sexo, String racaPet, Double pesoPet, Double idadePet, Endereco endereco) {
+            this.nomePet = nomePet;
+            this.sobrenomePet = sobrenomePet;
+            this.tipoPet = tipoPet;
+            this.sexo = sexo;
+            this.racaPet = racaPet;
+            this.pesoPet = pesoPet;
+            this.idadePet = idadePet;
+            this.endereco = endereco;
+        }
 
         public static void showMenu(){
             System.out.println("\n\n--------BEM-VINDO AO SISTEMA DE CADASTRO---------\n");
@@ -104,7 +106,6 @@ import java.time.LocalDate;
                                             throw new NomeInvalidoException("Digite somente letras.");
                                         }
 
-                                        String nomeCompleto = resposta.trim();
                                         String[] partes = resposta.trim().split("\\s+", 2);
                                         novoPet.nomePet = partes[0];
                                         novoPet.sobrenomePet = partes[1];
@@ -279,6 +280,32 @@ import java.time.LocalDate;
             } catch (IOException e){
                 System.out.println("Erro ao salvar o pet no arquivo: " + e.getMessage());
             }
+        }
+
+        public static void exibirMenuBuscaPets(){
+            System.out.println("\n\n--------BEM-VINDO AO MENU DE BUSCA DE PETS---------\n");
+            System.out.println("1 - Buscar por idade\n2 - Buscar por nome\n3 - Buscar por raça\n4 - Voltar ao menu principal");
+            System.out.println("\nEscolha uma opção: ");
+            String opcaoEscolhida = input.nextLine();
+            switch (opcaoEscolhida.trim()){
+                case "1":
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    showMenu();
+                    break;
+                default:
+                    System.out.println("Opção inválida");
+                    exibirMenuBuscaPets();
+                    break;
+            }
+        }
+
+        public static void buscarPetsPorIdade(){
+            
         }
         @Override
         public String toString() {
