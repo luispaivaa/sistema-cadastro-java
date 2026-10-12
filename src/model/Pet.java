@@ -64,7 +64,13 @@
                 case "3":
                     break;
                 case "4":
-                    System.out.println(Pet.listaPetCadastrados);
+                    if (listaPetCadastrados.isEmpty()){
+                        System.out.println("\n\nNenhum pet cadastrado.\n\n");
+                        showMenu();
+                    } else {
+                        System.out.println("\n\n--- PETS CADASTRADOS ---\n\n");
+                        mostrarPetsPorLinha(listaPetCadastrados);
+                    }
                     break;
                 case "5":
                     exibirMenuBuscaPets();
@@ -631,24 +637,32 @@
                 }
             }
 
-            public static void deletarPetSelecionado(Pet pet){
-                System.out.println("\n\nTem certeza que deseja DELETAR esse Pet da lista ?\n\n");
-                System.out.println("[1] Sim\n[2] Não");
-                String respostaDelete = input.nextLine();
-                if (!respostaDelete.trim().equals("1") && !respostaDelete.trim().equals("2")){
-                    System.out.println("\n\nResposta inválida.\n\n");
-                    showMenu();
-                    return;
-                } if (respostaDelete.trim().equals("1")){
-                    listaPetCadastrados.remove(pet);
-                    System.out.println("\nPet deletado com sucesso!");
-                    showMenu();
-                    return;
-                } else {
-                    System.out.println("\n\nPet NÃO deletado.\n\n");
+            public static void deletarPetSelecionado(Pet pet) {
+                if (pet == null) {
+                    System.out.println("Nenhum pet foi selecionado.");
                     showMenu();
                     return;
                 }
+                    while (true) {
+                        System.out.println("\n\nTem certeza que deseja DELETAR esse Pet da lista ?\n\n");
+                        System.out.println("[SIM] Confirmar\n[NÃO] Deletar ");
+                        String respostaDelete = input.nextLine().trim();
+
+                        if (respostaDelete.trim().equalsIgnoreCase("SIM")) {
+                            if(listaPetCadastrados.remove(pet)) {
+                                System.out.println("\nPet deletado com sucesso!");
+                                showMenu();
+                            } else {
+                                System.out.println("O pet selecionado não está na lista.");
+                            }
+                            return;
+                        } if (respostaDelete.equalsIgnoreCase("NÃO") || respostaDelete.equalsIgnoreCase("NAO")){
+                            System.out.println("\n\nPet NÃO deletado.\n\n");
+                            showMenu();
+                            return;
+                        }
+                        System.out.println("Informe uma reposta válida. SIM ou NÃO.");
+                    }
             }
 
         @Override
