@@ -317,7 +317,7 @@
             }
         }
 
-        public static void buscarPetsPorIdade(TipoPet tipoPet){
+        public static List<Pet> buscarPetsPorIdade(TipoPet tipoPet){
             System.out.println("INFORME A IDADE DE SEU PET: ");
             String resposta = input.nextLine();
             Double idade = lerNumero(resposta);
@@ -334,9 +334,14 @@
                 System.out.println("\n\n--- PETS ENCONTRADOS ---\n\n");
                 mostrarPetsPorLinha(petsEncontrados);
             }
+            return petsEncontrados;
         }
 
-        public static void buscarPetsPorNome(TipoPet tipoPet){
+       
+                
+        
+
+        public static List<Pet> buscarPetsPorNome(TipoPet tipoPet){
             System.out.println("INFORME O NOME DO SEU PET: ");
             String resposta = input.nextLine();
             String respostaFormatada = normalizarTexto(resposta.trim());
@@ -356,9 +361,10 @@
                 System.out.println("\n\n--- PETS ENCONTRADOS ---\n\n");
                 mostrarPetsPorLinha(petsEncontradosNome);
             }
+            return petsEncontradosNome;
         }
 
-        public static void buscarPetsPorRaca(TipoPet tipoPet){
+        public static List<Pet> buscarPetsPorRaca(TipoPet tipoPet){
             System.out.println("\n\nINFORME A RAÇA DO SEU PET: \n");
             String resposta = input.nextLine();
             String respostaFormatada = normalizarTexto(resposta.trim());
@@ -377,6 +383,8 @@
                     System.out.println("\n\n--- PETS ENCONTRADOS ---\n\n");
                     mostrarPetsPorLinha(petsEncontradosRaca);
                 }
+
+                return petsEncontradosRaca;
             }
 
             public static String normalizarTexto(String texto){
@@ -423,8 +431,94 @@
                 }
             }
 
+            public static void menuAlterarPetCadastrado() {
+            System.out.println("\n\n--------BEM-VINDO AO MENU DE BUSCA DE PETS---------\n");
+            System.out.println("Informe o tipo de PET que deseja buscar (CACHORRO ou GATO): ");
+            String tipoPet = input.nextLine();
+            String tipoPetFormatado = tipoPet.trim().toUpperCase();
+            if (!tipoPetFormatado.equals("CACHORRO") && !tipoPetFormatado.equals("GATO")) {
+                System.out.println("Tipo de PET inválido. Tente novamente.");
+                exibirMenuBuscaPets();
+                return;
+            }
+
+            System.out.println("1 - Buscar por idade\n2 - Buscar por nome\n3 - Buscar por raça\n4 - Voltar ao menu principal\n");
+            System.out.println("\nEscolha uma opção: ");
+            String opcaoEscolhida = input.nextLine();
+            switch (opcaoEscolhida.trim()){
+                case "1":
+                    buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado));
+                    if (buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado)).isEmpty()) {
+                        System.out.println("Nenhum pet encontrado com essa idade.");
+                        exibirMenuBuscaPets();
+                    } else {
+                        System.out.println("Qual pet deseja alterar? Informe o número correspondente: ");
+                        int numeroPet = Integer.parseInt(input.nextLine());
+                        if (numeroPet < 1 || numeroPet > buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado)).size()) {
+                            System.out.println("Número inválido.");
+                            exibirMenuBuscaPets();
+                        } else {
+                            Pet petSelecionado = buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado)).get(numeroPet - 1);
+                            System.out.println("Pet selecionado: " + petSelecionado.nomePet + " " + petSelecionado.sobrenomePet);
+                            alterarPetCadastrado(petSelecionado);
+                            }
+                        }
+                    break;
+                case "2":
+                    buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado));
+                    break;
+                case "3":
+                    buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado));
+                    break;
+                case "4":
+                    showMenu();
+                    break;
+                default:
+                    System.out.println("Opção inválida");
+                    exibirMenuBuscaPets();
+                    break;
+                }
+            }
+
             public static void alterarPetCadastrado(Pet pet) {
-                
+                System.out.println("Qual campo deseja alterar?");
+                System.out.println("1 - Nome\n2 - Sobrenome\n3 - Endereço\n4 - Idade\n5 - Peso\n6 - Raça");
+                String opcaoEscolhida = input.nextLine();
+                switch (opcaoEscolhida.trim()) {
+                    case "1":
+                        System.out.println("Informe o novo nome: ");
+                        String novoNome = input.nextLine();
+                        pet.nomePet = novoNome;
+                        break;
+                    case "2":
+                        System.out.println("Informe o novo sobrenome: ");
+                        String novoSobrenome = input.nextLine();
+                        pet.sobrenomePet = novoSobrenome;
+                        break;
+                    case "3":
+                        Endereco novoEndereco = pet.coletaEndereco(input);
+                        pet.endereco = novoEndereco;
+                        break;
+                    case "4":
+                        System.out.println("Informe a nova idade: ");
+                        Double novaIdade = lerNumero(input.nextLine());
+                        pet.idadePet = novaIdade;
+                        break;
+                    case "5":
+                        System.out.println("Informe o novo peso: ");
+                        Double novoPeso = lerNumero(input.nextLine());
+                        pet.pesoPet = novoPeso;
+                        break;
+                    case "6":
+                        System.out.println("Informe a nova raça: ");
+                        String novaRaca = input.nextLine();
+                        pet.racaPet = novaRaca;
+                        break;
+                    default:
+                        System.out.println("Opção inválida");
+                        alterarPetCadastrado(pet);
+                        break;
+                }
             }
 
         @Override
@@ -439,6 +533,7 @@
                     ", idadePet=" + (idadePet == null ? NAO_INFORMADO : idadePet) +
                     ", endereco=" + endereco +
                     '}';
-        }
+                }
 
-    }
+
+            }
