@@ -286,8 +286,9 @@
         public static void exibirMenuBuscaPets(){
             System.out.println("\n\n--------BEM-VINDO AO MENU DE BUSCA DE PETS---------\n");
             System.out.println("Informe o tipo de PET que deseja buscar (CACHORRO ou GATO): ");
-            String tipoPet = input.nextLine().trim().toUpperCase();
-            if (!tipoPet.equals("CACHORRO") || !tipoPet.equals("GATO")) {
+            String tipoPet = input.nextLine();
+            String tipoPetFormatado = tipoPet.trim().toUpperCase();
+            if (!tipoPetFormatado.equals("CACHORRO") && !tipoPetFormatado.equals("GATO")) {
                 System.out.println("Tipo de PET inválido. Tente novamente.");
                 exibirMenuBuscaPets();
                 return;
@@ -298,13 +299,13 @@
             String opcaoEscolhida = input.nextLine();
             switch (opcaoEscolhida.trim()){
                 case "1":
-                    buscarPetsPorIdade(TipoPet.valueOf(tipoPet));
+                    buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado));
                     break;
                 case "2":
-                    buscarPetsPorNome(TipoPet.valueOf(tipoPet));
+                    buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado));
                     break;
                 case "3":
-                    buscarPetsPorRaca(TipoPet.valueOf(tipoPet));
+                    buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado));
                     break;
                 case "4":
                     showMenu();
@@ -331,11 +332,7 @@
                 exibirMenuBuscaPets();
             } else {
                 System.out.println("\n\n--- PETS ENCONTRADOS ---\n\n");
-                int indice = 1;
-                for (Pet petsEncontrado : petsEncontrados) {
-                    System.out.println(indice + " - " + petsEncontrado.nomePet.toUpperCase());
-                    indice++;
-                }
+                mostrarPetsPorLinha(petsEncontrados);
             }
         }
 
@@ -357,11 +354,7 @@
                 exibirMenuBuscaPets();
             } else {
                 System.out.println("\n\n--- PETS ENCONTRADOS ---\n\n");
-                int indice = 1;
-                for (Pet petsEncontrado : petsEncontradosNome) {
-                    System.out.println(indice + " - " + petsEncontrado.nomePet.toUpperCase() + " " + petsEncontrado.sobrenomePet.toUpperCase());
-                    indice++;
-                }
+                mostrarPetsPorLinha(petsEncontradosNome);
             }
         }
 
@@ -382,11 +375,7 @@
                 exibirMenuBuscaPets();
                 } else {
                     System.out.println("\n\n--- PETS ENCONTRADOS ---\n\n");
-                    int indice = 1;
-                    for (Pet petsEncontrado : petsEncontradosRaca) {
-                        System.out.println(indice + " - " + petsEncontrado.nomePet.toUpperCase() + " " + petsEncontrado.sobrenomePet.toUpperCase());
-                        indice++;
-                    }
+                    mostrarPetsPorLinha(petsEncontradosRaca);
                 }
             }
 
@@ -395,6 +384,47 @@
                     texto == null ? "" : texto, Normalizer.Form.NFD
                 ).replaceAll("\\p{M}", "");
                 return semAcentos.toLowerCase(Locale.ROOT);
+            }
+            
+            public static void mostrarPetsPorLinha(List<Pet> pets) {
+                for (int i = 0; i < pets.size(); i++) {
+                    Pet pet = pets.get(i);
+                    if (pet == null) {
+                        System.out.println((i + 1) + ". " + NAO_INFORMADO);
+                        continue;
+                    }
+
+                    String nomeCompleto = Objects.toString(pet.nomePet, NAO_INFORMADO);
+                    if (pet.sobrenomePet != null && !pet.sobrenomePet.isBlank()) {
+                        nomeCompleto += " " + pet.sobrenomePet;
+                    }
+
+                    String enderecoFormatado = pet.endereco == null
+                            ? NAO_INFORMADO
+                            : String.join(", ",
+                                    Objects.toString(pet.endereco.nomeRua, NAO_INFORMADO),
+                                    Objects.toString(pet.endereco.numeroCasa, NAO_INFORMADO),
+                                    Objects.toString(pet.endereco.nomeBairro, NAO_INFORMADO),
+                                    Objects.toString(pet.endereco.nomeCidade, NAO_INFORMADO));
+                    String idade = pet.idadePet == null
+                            ? NAO_INFORMADO
+                            : pet.idadePet + " anos";
+                    String peso = pet.pesoPet == null
+                            ? NAO_INFORMADO
+                            : pet.pesoPet + " kg";
+
+                    System.out.println((i + 1) + ". " + nomeCompleto
+                            + " - " + Objects.toString(pet.tipoPet, NAO_INFORMADO)
+                            + " - " + Objects.toString(pet.sexo, NAO_INFORMADO)
+                            + " - " + enderecoFormatado
+                            + " - " + idade
+                            + " - " + peso
+                            + " - " + Objects.toString(pet.racaPet, NAO_INFORMADO));
+                }
+            }
+
+            public static void alterarPetCadastrado(Pet pet) {
+                
             }
 
         @Override
