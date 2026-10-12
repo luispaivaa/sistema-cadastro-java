@@ -466,9 +466,39 @@
                     break;
                 case "2":
                     buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado));
+                    if (buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado)).isEmpty()) {
+                        System.out.println("Nenhum pet encontrado com esse nome.");
+                        exibirMenuBuscaPets();
+                    } else {
+                        System.out.println("Qual pet deseja alterar? Informe o número correspondente: ");
+                        int numeroPet = Integer.parseInt(input.nextLine());
+                        if (numeroPet < 1 || numeroPet > buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado)).size()) {
+                            System.out.println("Número inválido.");
+                            exibirMenuBuscaPets();
+                        } else {
+                            Pet petSelecionado = buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado)).get(numeroPet - 1);
+                            System.out.println("Pet selecionado: " + petSelecionado.nomePet + " " + petSelecionado.sobrenomePet);
+                            alterarPetCadastrado(petSelecionado);
+                            }
+                        }
                     break;
                 case "3":
                     buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado));
+                    if (buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado)).isEmpty()) {
+                        System.out.println("Nenhum pet encontrado com essa raça.");
+                        exibirMenuBuscaPets();
+                    } else {
+                        System.out.println("Qual pet deseja alterar? Informe o número correspondente: ");
+                        int numeroPet = Integer.parseInt(input.nextLine());
+                        if (numeroPet < 1 || numeroPet > buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado)).size()) {
+                            System.out.println("Número inválido.");
+                            exibirMenuBuscaPets();
+                        } else {
+                            Pet petSelecionado = buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado)).get(numeroPet - 1);
+                            System.out.println("Pet selecionado: " + petSelecionado.nomePet + " " + petSelecionado.sobrenomePet);
+                            alterarPetCadastrado(petSelecionado);
+                            }
+                        }
                     break;
                 case "4":
                     showMenu();
