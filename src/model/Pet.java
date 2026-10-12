@@ -27,6 +27,7 @@
         Double pesoPet;
         Double idadePet;
         Endereco endereco = new Endereco();
+        File arquivoPet;
         static List<Pet> listaPetCadastrados = new ArrayList<>();
         static Scanner input = new Scanner(System.in);
         static final String PASTA_PETS = "petsCadastrados";
@@ -273,8 +274,8 @@
 
            File pastaPets = new File(PASTA_PETS);
            pastaPets.mkdir(); 
-
-            try(BufferedWriter writer = new BufferedWriter(new FileWriter(new File(pastaPets, nomeArquivo)))) {
+           File arquvivo = new File(pastaPets, nomeArquivo);
+            try(BufferedWriter writer = new BufferedWriter(new FileWriter(arquvivo))) {
                 
                 writer.write("1 - " + pet.nomePet + " " + pet.sobrenomePet + "\n");
                 writer.write("2 - " + pet.tipoPet + "\n");
@@ -283,7 +284,7 @@
                 writer.write("5 - " + (pet.idadePet == null ? NAO_INFORMADO : pet.idadePet + " anos") + "\n");
                 writer.write("6 - " + (pet.pesoPet == null ? NAO_INFORMADO : pet.pesoPet + " kg") + "\n");
                 writer.write("7 - " + (pet.racaPet == null ? NAO_INFORMADO : pet.racaPet) + "\n");
-        
+                pet.arquivoPet = arquvivo;
 
             } catch (IOException e){
                 System.out.println("Erro ao salvar o pet no arquivo: " + e.getMessage());
@@ -649,21 +650,38 @@
                         String respostaDelete = input.nextLine().trim();
 
                         if (respostaDelete.trim().equalsIgnoreCase("SIM")) {
-                            if(listaPetCadastrados.remove(pet)) {
-                                System.out.println("\nPet deletado com sucesso!");
+                            if (!listaPetCadastrados.contains(pet)){
+                                System.out.println("O pet selecionado não está na lista.");
                                 showMenu();
-                            } else {
+                                return;
+                            } if(pet.arquivoPet == null || !pet.arquivoPet.exists()){
+                                System.out.println("O arquivo do pet não foi encontrado.");
+                                showMenu();
+                                return;
+                            } if (listaPetCadastrados.contains(pet) && pet.arquivoPet.exists()) {
+                                listaPetCadastrados.remove(pet);
+                                boolean deletado = pet.arquivoPet.delete();
+                                if (deletado) {
+                                    System.out.println("\n\nPet deletado com sucesso.\n\n");
+                                    showMenu();
+                                    return;
+                                } else {
+                                    System.out.println("Não foi possível deletar o arquivo do pet.");
+                                    showMenu();
+                                    return;
+                                }
+                            }
+                        } else {
                                 System.out.println("O pet selecionado não está na lista.");
                             }
-                            return;
-                        } if (respostaDelete.equalsIgnoreCase("NÃO") || respostaDelete.equalsIgnoreCase("NAO")){
+                        if (respostaDelete.equalsIgnoreCase("NÃO") || respostaDelete.equalsIgnoreCase("NAO")){
                             System.out.println("\n\nPet NÃO deletado.\n\n");
                             showMenu();
                             return;
+                          } 
                         }
-                        System.out.println("Informe uma reposta válida. SIM ou NÃO.");
                     }
-            }
+        
 
         @Override
         public String toString() {
