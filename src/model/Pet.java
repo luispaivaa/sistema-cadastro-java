@@ -59,6 +59,7 @@
                     scanForms();
                     break;
                 case "2":
+                    menuAlterarPetCadastrado();
                     break;
                 case "3":
                     break;
@@ -548,6 +549,105 @@
                         System.out.println("Opção inválida");
                         alterarPetCadastrado(pet);
                         break;
+                }
+            }
+
+            public static void menuDeletarPetCadastrado(){
+                System.out.println("\n\n--------BEM-VINDO AO MENU DE BUSCA DE PETS---------\n");
+                System.out.println("Informe o tipo de PET que deseja buscar (CACHORRO ou GATO): ");
+                String tipoPet = input.nextLine();
+                String tipoPetFormatado = tipoPet.trim().toUpperCase();
+                if (!tipoPetFormatado.equals("CACHORRO") && !tipoPetFormatado.equals("GATO")) {
+                    System.out.println("Tipo de PET inválido. Tente novamente.");
+                    exibirMenuBuscaPets();
+                    return;
+                }
+
+                System.out.println("1 - Buscar por idade\n2 - Buscar por nome\n3 - Buscar por raça\n4 - Voltar ao menu principal\n");
+                System.out.println("\nEscolha uma opção: ");
+                String opcaoEscolhida = input.nextLine();
+                switch (opcaoEscolhida.trim()){
+                    case "1":
+                        buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado));
+                        if (buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado)).isEmpty()) {
+                            System.out.println("Nenhum pet encontrado com essa idade.");
+                            exibirMenuBuscaPets();
+                        } else {
+                            System.out.println("Qual pet deseja deletar? Informe o número correspondente: ");
+                            int numeroPet = Integer.parseInt(input.nextLine());
+                            if (numeroPet < 1 || numeroPet > buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado)).size()) {
+                                System.out.println("Número inválido.");
+                                exibirMenuBuscaPets();
+                            } else {
+                                Pet petSelecionado = buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado)).get(numeroPet - 1);
+                                System.out.println("Pet selecionado: " + petSelecionado.nomePet + " " + petSelecionado.sobrenomePet);
+                                deletarPetSelecionado(petSelecionado);
+                            }
+                        }
+                        break;
+                    case "2":
+                        buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado));
+                        if (buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado)).isEmpty()) {
+                            System.out.println("Nenhum pet encontrado com esse nome.");
+                            exibirMenuBuscaPets();
+                        } else {
+                            System.out.println("Qual pet deseja deletar? Informe o número correspondente: ");
+                            int numeroPet = Integer.parseInt(input.nextLine());
+                            if (numeroPet < 1 || numeroPet > buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado)).size()) {
+                                System.out.println("Número inválido.");
+                                exibirMenuBuscaPets();
+                            } else {
+                                Pet petSelecionado = buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado)).get(numeroPet - 1);
+                                System.out.println("Pet selecionado: " + petSelecionado.nomePet + " " + petSelecionado.sobrenomePet);
+                                deletarPetSelecionado(petSelecionado);
+                            }
+                        }
+                        break;
+                    case "3":
+                        buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado));
+                        if (buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado)).isEmpty()) {
+                            System.out.println("Nenhum pet encontrado com essa raça.");
+                            exibirMenuBuscaPets();
+                        } else {
+                            System.out.println("Qual pet deseja deletar? Informe o número correspondente: ");
+                            int numeroPet = Integer.parseInt(input.nextLine());
+                            if (numeroPet < 1 || numeroPet > buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado)).size()) {
+                                System.out.println("Número inválido.");
+                                exibirMenuBuscaPets();
+                            } else {
+                                Pet petSelecionado = buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado)).get(numeroPet - 1);
+                                System.out.println("Pet selecionado: " + petSelecionado.nomePet + " " + petSelecionado.sobrenomePet);
+                                deletarPetSelecionado(petSelecionado);
+                            }
+                        }
+                        break;
+                    case "4":
+                        showMenu();
+                        break;
+                    default:
+                        System.out.println("Opção inválida");
+                        exibirMenuBuscaPets();
+                        break;
+                }
+            }
+
+            public static void deletarPetSelecionado(Pet pet){
+                System.out.println("\n\nTem certeza que deseja DELETAR esse Pet da lista ?\n\n");
+                System.out.println("[1] Sim\n[2] Não");
+                String respostaDelete = input.nextLine();
+                if (!respostaDelete.trim().equals("1") && !respostaDelete.trim().equals("2")){
+                    System.out.println("\n\nResposta inválida.\n\n");
+                    showMenu();
+                    return;
+                } if (respostaDelete.trim().equals("1")){
+                    listaPetCadastrados.remove(pet);
+                    System.out.println("\nPet deletado com sucesso!");
+                    showMenu();
+                    return;
+                } else {
+                    System.out.println("\n\nPet NÃO deletado.\n\n");
+                    showMenu();
+                    return;
                 }
             }
 
