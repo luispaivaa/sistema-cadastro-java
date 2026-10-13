@@ -63,6 +63,7 @@
                     menuAlterarPetCadastrado();
                     break;
                 case "3":
+                    menuDeletarPetCadastrado();
                     break;
                 case "4":
                     if (listaPetCadastrados.isEmpty()){
@@ -280,7 +281,7 @@
                 writer.write("1 - " + pet.nomePet + " " + pet.sobrenomePet + "\n");
                 writer.write("2 - " + pet.tipoPet + "\n");
                 writer.write("3 - " + pet.sexo + "\n");
-                writer.write("4 - " + pet.endereco.nomeRua + ", " + pet.endereco.numeroCasa + ", " + pet.endereco.nomeBairro + "\n");
+                writer.write("4 - " + pet.endereco.nomeCidade + ", " + pet.endereco.nomeRua + ", " + pet.endereco.numeroCasa + ", " + pet.endereco.nomeBairro + "\n");
                 writer.write("5 - " + (pet.idadePet == null ? NAO_INFORMADO : pet.idadePet + " anos") + "\n");
                 writer.write("6 - " + (pet.pesoPet == null ? NAO_INFORMADO : pet.pesoPet + " kg") + "\n");
                 writer.write("7 - " + (pet.racaPet == null ? NAO_INFORMADO : pet.racaPet) + "\n");
@@ -681,6 +682,92 @@
                           } 
                         }
                     }
+
+        public static void carregarPetsDoArquivo(){
+            File pasta = new File(PASTA_PETS);
+
+            if (!pasta.exists() || !pasta.isDirectory()){
+                System.out.println("O diretório dos Pets Cadastrados não existe.");
+                return;
+            }
+
+            File[] arquivos = pasta.listFiles((dir, name) -> name.toUpperCase().endsWith(".TXT"));
+            if (arquivos == null){
+                System.out.println("Não existem arquivos de pets cadastrados no diretório \"petsCadastrados\".");
+                return;
+            }
+
+            Arrays.sort(arquivos);
+
+            for (File arquivo : arquivos) {
+                try {
+                    // lerPetDoArquivo
+                } catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+
+        public static void lerPetsDoArquivo(File arquivo) throws IOException{
+            Pet pet = new Pet();
+            pet.arquivoPet = arquivo;
+
+            try (BufferedReader bf = new BufferedReader(new FileReader(arquivo))) {
+                String linha;
+                while ((linha = bf.readLine()) != null) {
+                    linha = linha.trim();
+                    if (linha.isEmpty()){
+                        continue;
+                    }
+
+                    String[] partesDaLinha = linha.split(" - ", 2);
+                    int indexCampo = Integer.parseInt(partesDaLinha[0].trim());
+                    String campoValue = partesDaLinha[1].trim();
+
+                    switch (indexCampo) {
+                        case 1:
+                            String[] nome = campoValue.split("\\s");
+                            pet.nomePet = nome[0];
+                            pet.sobrenomePet = nome.length > 1 ? nome[1] : "";
+                        case 2:
+                            pet.tipoPet = TipoPet.valueOf(campoValue);
+                        case 3:
+                            pet.sexo = SexoPet.valueOf(campoValue);
+                        case 4:
+                           pet.endereco = lerEnderecoDoArquivo(campoValue);
+                        case 5 :
+                            pet.idadePet = lerNumeroDoArquivo(campoValue, " anos");
+                        case 6:
+                            pet.idadePet = lerNumeroDoArquivo(campoValue, " kg");
+                        case 7:
+                            pet.racaPet = campoValue.trim();
+
+                    }
+                }
+            }
+        }
+
+        private static Endereco lerEnderecoDoArquivo(String value){
+            Endereco endereco = new Endereco();
+            String[] partesDoEndereco = value.split(",");
+            if (partesDoEndereco.length == 4){
+                endereco.nomeCidade = partesDoEndereco[0].trim();
+                endereco.nomeRua = partesDoEndereco[1].trim();
+                endereco.numeroCasa = partesDoEndereco[2].trim();
+                endereco.nomeBairro = partesDoEndereco[3].trim();
+            } else {
+                endereco.nomeCidade = value.trim();
+            }
+            return endereco;
+        }
+
+        private static Double lerNumeroDoArquivo(String value, String suffix) {
+            if (value.equals(NAO_INFORMADO)){
+                return null;
+            }
+            return Double.parseDouble(value.replace(suffix, "").trim());
+        }
+
         
 
         @Override
