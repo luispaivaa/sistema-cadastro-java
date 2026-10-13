@@ -4,8 +4,7 @@ import model.Pet;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-
+        Pet.carregarPetsDoArquivo();
         Pet.showMenu();
-
     }
 }

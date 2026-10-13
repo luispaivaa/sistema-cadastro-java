@@ -419,10 +419,10 @@
                     String enderecoFormatado = pet.endereco == null
                             ? NAO_INFORMADO
                             : String.join(", ",
-                                    Objects.toString(pet.endereco.nomeRua, NAO_INFORMADO),
-                                    Objects.toString(pet.endereco.numeroCasa, NAO_INFORMADO),
-                                    Objects.toString(pet.endereco.nomeBairro, NAO_INFORMADO),
-                                    Objects.toString(pet.endereco.nomeCidade, NAO_INFORMADO));
+                            Objects.toString(pet.endereco.nomeCidade, NAO_INFORMADO),
+                            Objects.toString(pet.endereco.nomeRua, NAO_INFORMADO),
+                            Objects.toString(pet.endereco.numeroCasa, NAO_INFORMADO),
+                            Objects.toString(pet.endereco.nomeBairro, NAO_INFORMADO));
                     String idade = pet.idadePet == null
                             ? NAO_INFORMADO
                             : pet.idadePet + " anos";
@@ -701,14 +701,15 @@
 
             for (File arquivo : arquivos) {
                 try {
-                    // lerPetDoArquivo
-                } catch (RuntimeException e){
-                    System.out.println(e.getMessage());
+                    Pet pet = lerPetsDoArquivo(arquivo);
+                    listaPetCadastrados.add(pet);
+                } catch (IOException e){
+                    System.out.println("Não foi possível ler o arquivo: " + arquivo.getName());
                 }
             }
         }
 
-        public static void lerPetsDoArquivo(File arquivo) throws IOException{
+        public static Pet lerPetsDoArquivo(File arquivo) throws IOException{
             Pet pet = new Pet();
             pet.arquivoPet = arquivo;
 
@@ -725,26 +726,22 @@
                     String campoValue = partesDaLinha[1].trim();
 
                     switch (indexCampo) {
-                        case 1:
-                            String[] nome = campoValue.split("\\s");
+                        case 1 -> {
+                            String[] nome = campoValue.split("\\s+", 2);
                             pet.nomePet = nome[0];
                             pet.sobrenomePet = nome.length > 1 ? nome[1] : "";
-                        case 2:
-                            pet.tipoPet = TipoPet.valueOf(campoValue);
-                        case 3:
-                            pet.sexo = SexoPet.valueOf(campoValue);
-                        case 4:
-                           pet.endereco = lerEnderecoDoArquivo(campoValue);
-                        case 5 :
-                            pet.idadePet = lerNumeroDoArquivo(campoValue, " anos");
-                        case 6:
-                            pet.idadePet = lerNumeroDoArquivo(campoValue, " kg");
-                        case 7:
-                            pet.racaPet = campoValue.trim();
-
+                        }
+                        case 2 -> pet.tipoPet = TipoPet.valueOf(campoValue);
+                        case 3 -> pet.sexo = SexoPet.valueOf(campoValue);
+                        case 4 -> pet.endereco = lerEnderecoDoArquivo(campoValue);
+                        case 5 -> pet.idadePet = lerNumeroDoArquivo(campoValue, " anos");
+                        case 6 -> pet.pesoPet = lerNumeroDoArquivo(campoValue, " kg");
+                        case 7 -> pet.racaPet = campoValue;
+                        default -> throw new IOException("Campo desconhecido no arquivo: " + indexCampo);
                     }
                 }
             }
+            return pet;
         }
 
         private static Endereco lerEnderecoDoArquivo(String value){
