@@ -18,20 +18,20 @@
 
 
     public class Pet {
-        String nomePet;
-        String sobrenomePet;
-        public static final String NAO_INFORMADO = "NAO_INFORMADO";
-        TipoPet tipoPet;
-        SexoPet sexo;
-        String racaPet;
-        Double pesoPet;
-        Double idadePet;
-        Endereco endereco = new Endereco();
-        File arquivoPet;
-        static List<Pet> listaPetCadastrados = new ArrayList<>();
-        static Scanner input = new Scanner(System.in);
-        static final String PASTA_PETS = "petsCadastrados";
-        static final String ARQUIVO_FORMULARIO = "arquivos-de-texto/formulario.txt";
+        private String nomePet;
+        private String sobrenomePet;
+        private static final String NAO_INFORMADO = "NAO_INFORMADO";
+        private TipoPet tipoPet;
+        private SexoPet sexo;
+        private String racaPet;
+        private Double pesoPet;
+        private Double idadePet;
+        private Endereco endereco = new Endereco();
+        private File arquivoPet;
+        private static List<Pet> listaPetCadastrados = new ArrayList<>();
+        private static Scanner input = new Scanner(System.in);
+        private static final String PASTA_PETS = "petsCadastrados";
+        private static final String ARQUIVO_FORMULARIO = "arquivos-de-texto/formulario.txt";
 
 
         public Pet() {
@@ -47,6 +47,78 @@
             this.pesoPet = pesoPet;
             this.idadePet = idadePet;
             this.endereco = endereco;
+        }
+
+        public String getNomePet() {
+            return nomePet;
+        }
+
+        public void setNomePet(String nomePet) {
+            this.nomePet = nomePet;
+        }
+
+        public String getSobrenomePet() {
+            return sobrenomePet;
+        }
+
+        public void setSobrenomePet(String sobrenomePet) {
+            this.sobrenomePet = sobrenomePet;
+        }
+
+        public TipoPet getTipoPet() {
+            return tipoPet;
+        }
+
+        public void setTipoPet(TipoPet tipoPet) {
+            this.tipoPet = tipoPet;
+        }
+
+        public SexoPet getSexo() {
+            return sexo;
+        }
+
+        public void setSexo(SexoPet sexo) {
+            this.sexo = sexo;
+        }
+
+        public String getRacaPet() {
+            return racaPet;
+        }
+
+        public void setRacaPet(String racaPet) {
+            this.racaPet = racaPet;
+        }
+
+        public Double getPesoPet() {
+            return pesoPet;
+        }
+
+        public void setPesoPet(Double pesoPet) {
+            this.pesoPet = pesoPet;
+        }
+
+        public Double getIdadePet() {
+            return idadePet;
+        }
+
+        public void setIdadePet(Double idadePet) {
+            this.idadePet = idadePet;
+        }
+
+        public Endereco getEndereco() {
+            return endereco;
+        }
+
+        public void setEndereco(Endereco endereco) {
+            this.endereco = endereco;
+        }
+
+        public File getArquivoPet() {
+            return arquivoPet;
+        }
+
+        public void setArquivoPet(File arquivoPet) {
+            this.arquivoPet = arquivoPet;
         }
 
         public static void showMenu(){
@@ -87,7 +159,7 @@
             
         }
 
-        public static void scanForms() {
+        private static void scanForms() {
             File formularioPerguntas = new File(ARQUIVO_FORMULARIO);
 
             try(FileReader fileReader = new FileReader(formularioPerguntas);
@@ -196,7 +268,7 @@
 
         }
 
-        public Endereco coletaEndereco(Scanner input) {
+        private Endereco coletaEndereco(Scanner input) {
             Endereco novoEndereco = new Endereco();
             System.out.println("Nome da Cidade - ");
             novoEndereco.nomeCidade = input.nextLine().trim();
@@ -220,7 +292,7 @@
             return novoEndereco;
         }
 
-        public static void showForms(){
+        private static void showForms(){
             File formularioPerguntas = new File("/home/luispaiva/Documents/dev/devDojo/sistema-cadastro-java/arquivos-de-texto/formulario.txt");
 
             try(FileReader fileReader = new FileReader(formularioPerguntas);
@@ -235,7 +307,7 @@
             }
         }
 
-        public static void finalCadastro(){
+        private static void finalCadastro(){
             while (true) {
                     System.out.println("\n\n----- CADASTRO FINALIZADO -----\n\n");
                     System.out.println("1 - MENU\n2 - CADASTRAR NOVO PET");
@@ -253,7 +325,7 @@
             }
         }
 
-        public static Double lerNumero(String resposta){
+        private static Double lerNumero(String resposta){
             String r = resposta.trim();
             if (r.isBlank()) {
                 return null;
@@ -264,12 +336,12 @@
             return Double.parseDouble(r.replace(',' , '.'));
         }
 
-        public static void addPets(Pet petCadastrado){
+        private static void addPets(Pet petCadastrado){
             Pet.listaPetCadastrados.add(petCadastrado);
 
         }
         
-        public static void salvarPetArquivo(Pet pet) {
+        private static void salvarPetArquivo(Pet pet) {
            String dataHora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm"));
            String nomeArquivo = dataHora + "-" + (pet.nomePet + pet.sobrenomePet).replace(" ", "").toUpperCase() + ".TXT";
 
@@ -292,7 +364,7 @@
             }
         }
 
-        public static void exibirMenuBuscaPets(){
+        private static void exibirMenuBuscaPets(){
             System.out.println("\n\n--------BEM-VINDO AO MENU DE BUSCA DE PETS---------\n");
             System.out.println("Informe o tipo de PET que deseja buscar (CACHORRO ou GATO): ");
             String tipoPet = input.nextLine();
@@ -326,7 +398,7 @@
             }
         }
 
-        public static List<Pet> buscarPetsPorIdade(TipoPet tipoPet){
+        private static List<Pet> buscarPetsPorIdade(TipoPet tipoPet){
             System.out.println("INFORME A IDADE DE SEU PET: ");
             String resposta = input.nextLine();
             Double idade = lerNumero(resposta);
@@ -350,7 +422,7 @@
                 
         
 
-        public static List<Pet> buscarPetsPorNome(TipoPet tipoPet){
+        private static List<Pet> buscarPetsPorNome(TipoPet tipoPet){
             System.out.println("INFORME O NOME DO SEU PET: ");
             String resposta = input.nextLine();
             String respostaFormatada = normalizarTexto(resposta.trim());
@@ -373,7 +445,7 @@
             return petsEncontradosNome;
         }
 
-        public static List<Pet> buscarPetsPorRaca(TipoPet tipoPet){
+        private static List<Pet> buscarPetsPorRaca(TipoPet tipoPet){
             System.out.println("\n\nINFORME A RAÇA DO SEU PET: \n");
             String resposta = input.nextLine();
             String respostaFormatada = normalizarTexto(resposta.trim());
@@ -396,14 +468,14 @@
                 return petsEncontradosRaca;
             }
 
-            public static String normalizarTexto(String texto){
+            private static String normalizarTexto(String texto){
                 String semAcentos = Normalizer.normalize(
                     texto == null ? "" : texto, Normalizer.Form.NFD
                 ).replaceAll("\\p{M}", "");
                 return semAcentos.toLowerCase(Locale.ROOT);
             }
             
-            public static void mostrarPetsPorLinha(List<Pet> pets) {
+            private static void mostrarPetsPorLinha(List<Pet> pets) {
                 for (int i = 0; i < pets.size(); i++) {
                     Pet pet = pets.get(i);
                     if (pet == null) {
@@ -440,7 +512,7 @@
                 }
             }
 
-            public static void menuAlterarPetCadastrado() {
+            private static void menuAlterarPetCadastrado() {
             System.out.println("\n\n--------BEM-VINDO AO MENU DE BUSCA DE PETS---------\n");
             System.out.println("Informe o tipo de PET que deseja buscar (CACHORRO ou GATO): ");
             String tipoPet = input.nextLine();
@@ -519,7 +591,7 @@
                 }
             }
 
-            public static void alterarPetCadastrado(Pet pet) {
+            private static void alterarPetCadastrado(Pet pet) {
                 System.out.println("Qual campo deseja alterar?");
                 System.out.println("1 - Nome\n2 - Sobrenome\n3 - Endereço\n4 - Idade\n5 - Peso\n6 - Raça");
                 String opcaoEscolhida = input.nextLine();
@@ -560,7 +632,7 @@
                 }
             }
 
-            public static void menuDeletarPetCadastrado(){
+            private static void menuDeletarPetCadastrado(){
                 System.out.println("\n\n--------BEM-VINDO AO MENU DE BUSCA DE PETS---------\n");
                 System.out.println("Informe o tipo de PET que deseja buscar (CACHORRO ou GATO): ");
                 String tipoPet = input.nextLine();
@@ -639,7 +711,7 @@
                 }
             }
 
-            public static void deletarPetSelecionado(Pet pet) {
+            private static void deletarPetSelecionado(Pet pet) {
                 if (pet == null) {
                     System.out.println("Nenhum pet foi selecionado.");
                     showMenu();
@@ -709,7 +781,7 @@
             }
         }
 
-        public static Pet lerPetsDoArquivo(File arquivo) throws IOException{
+        private static Pet lerPetsDoArquivo(File arquivo) throws IOException{
             Pet pet = new Pet();
             pet.arquivoPet = arquivo;
 
