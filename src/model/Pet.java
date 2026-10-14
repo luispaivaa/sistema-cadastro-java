@@ -528,54 +528,54 @@
             String opcaoEscolhida = input.nextLine();
             switch (opcaoEscolhida.trim()){
                 case "1":
-                    buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado));
-                    if (buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado)).isEmpty()) {
+                    List<Pet> petsPorIdade = buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado));
+                    if (petsPorIdade.isEmpty()) {
                         System.out.println("Nenhum pet encontrado com essa idade.");
                         exibirMenuBuscaPets();
                     } else {
                         System.out.println("Qual pet deseja alterar? Informe o número correspondente: ");
                         int numeroPet = Integer.parseInt(input.nextLine());
-                        if (numeroPet < 1 || numeroPet > buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado)).size()) {
+                        if (numeroPet < 1 || numeroPet > petsPorIdade.size()) {
                             System.out.println("Número inválido.");
                             exibirMenuBuscaPets();
                         } else {
-                            Pet petSelecionado = buscarPetsPorIdade(TipoPet.valueOf(tipoPetFormatado)).get(numeroPet - 1);
+                            Pet petSelecionado = petsPorIdade.get(numeroPet - 1);
                             System.out.println("Pet selecionado: " + petSelecionado.nomePet + " " + petSelecionado.sobrenomePet);
                             alterarPetCadastrado(petSelecionado);
                             }
                         }
                     break;
                 case "2":
-                    buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado));
-                    if (buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado)).isEmpty()) {
+                    List<Pet> petsPorNome = buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado));
+                    if (petsPorNome.isEmpty()) {
                         System.out.println("Nenhum pet encontrado com esse nome.");
                         exibirMenuBuscaPets();
                     } else {
                         System.out.println("Qual pet deseja alterar? Informe o número correspondente: ");
                         int numeroPet = Integer.parseInt(input.nextLine());
-                        if (numeroPet < 1 || numeroPet > buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado)).size()) {
+                        if (numeroPet < 1 || numeroPet > petsPorNome.size()) {
                             System.out.println("Número inválido.");
                             exibirMenuBuscaPets();
                         } else {
-                            Pet petSelecionado = buscarPetsPorNome(TipoPet.valueOf(tipoPetFormatado)).get(numeroPet - 1);
+                            Pet petSelecionado = petsPorNome.get(numeroPet - 1);
                             System.out.println("Pet selecionado: " + petSelecionado.nomePet + " " + petSelecionado.sobrenomePet);
                             alterarPetCadastrado(petSelecionado);
                             }
                         }
                     break;
                 case "3":
-                    buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado));
-                    if (buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado)).isEmpty()) {
+                    List<Pet> petsPorRaca = buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado));
+                    if (petsPorRaca.isEmpty()) {
                         System.out.println("Nenhum pet encontrado com essa raça.");
                         exibirMenuBuscaPets();
                     } else {
                         System.out.println("Qual pet deseja alterar? Informe o número correspondente: ");
                         int numeroPet = Integer.parseInt(input.nextLine());
-                        if (numeroPet < 1 || numeroPet > buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado)).size()) {
+                        if (numeroPet < 1 || numeroPet > petsPorRaca.size()) {
                             System.out.println("Número inválido.");
                             exibirMenuBuscaPets();
                         } else {
-                            Pet petSelecionado = buscarPetsPorRaca(TipoPet.valueOf(tipoPetFormatado)).get(numeroPet - 1);
+                            Pet petSelecionado = petsPorRaca.get(numeroPet - 1);
                             System.out.println("Pet selecionado: " + petSelecionado.nomePet + " " + petSelecionado.sobrenomePet);
                             alterarPetCadastrado(petSelecionado);
                             }
