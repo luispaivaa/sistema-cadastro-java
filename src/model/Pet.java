@@ -599,31 +599,55 @@
                     case "1":
                         System.out.println("Informe o novo nome: ");
                         String novoNome = input.nextLine();
-                        pet.nomePet = novoNome;
+                        Pet pet2 = pet;
+                        listaPetCadastrados.remove(pet);
+                        pet.arquivoPet.delete();
+                        pet2.nomePet = novoNome;
+                        salvarPetArquivo(pet2);
                         break;
                     case "2":
                         System.out.println("Informe o novo sobrenome: ");
                         String novoSobrenome = input.nextLine();
-                        pet.sobrenomePet = novoSobrenome;
+                        Pet pet3 = pet;
+                        listaPetCadastrados.remove(pet);
+                        pet.arquivoPet.delete();
+                        pet3.sobrenomePet = novoSobrenome;
+                        salvarPetArquivo(pet3);
                         break;
                     case "3":
                         Endereco novoEndereco = pet.coletaEndereco(input);
-                        pet.endereco = novoEndereco;
+                        Pet pet4 = pet;
+                        listaPetCadastrados.remove(pet);
+                        pet.arquivoPet.delete();
+                        pet4.endereco = novoEndereco;
+                        salvarPetArquivo(pet4);
                         break;
                     case "4":
                         System.out.println("Informe a nova idade: ");
                         Double novaIdade = lerNumero(input.nextLine());
-                        pet.idadePet = novaIdade;
+                        Pet pet5 = pet;
+                        listaPetCadastrados.remove(pet);
+                        pet.arquivoPet.delete();
+                        pet5.idadePet = novaIdade;
+                        salvarPetArquivo(pet5);
                         break;
                     case "5":
                         System.out.println("Informe o novo peso: ");
                         Double novoPeso = lerNumero(input.nextLine());
-                        pet.pesoPet = novoPeso;
+                        Pet pet6 = pet;
+                        listaPetCadastrados.remove(pet);
+                        pet.arquivoPet.delete();
+                        pet6.pesoPet = novoPeso;
+                        salvarPetArquivo(pet6);
                         break;
                     case "6":
                         System.out.println("Informe a nova raça: ");
                         String novaRaca = input.nextLine();
-                        pet.racaPet = novaRaca;
+                        Pet pet7 = pet;
+                        listaPetCadastrados.remove(pet);
+                        pet.arquivoPet.delete();
+                        pet7.racaPet = novaRaca;
+                        salvarPetArquivo(pet7);
                         break;
                     default:
                         System.out.println("Opção inválida");
